@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>画板</title>
+    <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+    <h1>画板</h1>
+    <div class="container">
+        <div class="row">
+            <ul name="" class="type">
+                <li class="line typeactive" onclick="drawLine()" data="line">直&nbsp;&nbsp;&nbsp;线</li>
+                <li class="rect" data="rect" onclick="drawRect()">矩&nbsp;&nbsp;&nbsp;形</li>
+                <li class="circle" data="circle" onclick="drawCircle()">圆&nbsp;&nbsp;&nbsp;圈</li>
+                <li class="pen" data="pen">铅&nbsp;&nbsp;&nbsp;笔</li>
+                <li class="poly" data="poly" onclick="drawTriangle()">三&nbsp;角&nbsp;形
+                    <div class="bian"><span>边数</span><input type="number" name="number" min="3" value="3" max="15"></div></li>
+                <li class="eraser" data="eraser">橡&nbsp;&nbsp;&nbsp;皮</li>
+                <li class="eraser" data="font" onclick="drawText()">文&nbsp;&nbsp;&nbsp;字</li>
+                <li class="eraser" data="horizontalfont" onclick="drawHLine()">横&nbsp;&nbsp;&nbsp;线</li>
+                <li class="eraser" data="verticalfont" onclick="drawVLine()">竖&nbsp;&nbsp;&nbsp;线</li>
+            </ul>
+            <ul class="style">
+                <li class="stroke styleactive" onclick="setFill()">描&nbsp;&nbsp;&nbsp;边</li>
+                <li class="fill"  onclick="setStack()">填&nbsp;&nbsp;&nbsp;充</li>
+            </ul>
+            <div class="space"></div>
+            <div class="box"><span>填充颜色</span></label><input id="fillcolors"  type="color" name="color" value="#000000"></div>
+            <div class="box"><span>描边颜色</span></label><input id="stackcolors"  type="color" name="color" value="#000000"></div>
+            <div class="box linewidth" ><span>线宽</span><input type="number" id="lineWidth" name="number" value="1" max="150" min="1"></div>
+            <div class="space"></div>
+            <div class="create shezhi">新&nbsp;&nbsp;&nbsp;建
+                <div class="xinjian">
+                    <h6>画 板 尺 寸</h6>
+                    <div class="xinjian_width">
+                        <span>宽</span>
+                        <input type="number" max="1070" min="500" value="500">
+                    </div>
+                    <div class="xinjian_height">
+                        <span>高</span>
+                        <input type="number" max="648" min="300" value="300">
+                    </div>
+                    <input type="button" name="queding" value="确定" id="ding">
+                    <div class="xinjian_before">+</div>
+                </div>
+            </div>
+            <div class="clear shezhi" onclick="clearCanvas()" >清&nbsp;&nbsp;&nbsp;空</div>
+            <div class="back shezhi">撤&nbsp;&nbsp;&nbsp;销</div>
+            <div class="save shezhi">保&nbsp;&nbsp;&nbsp;存</div>
+            <div class="cut shezhi" data="cut">剪&nbsp;&nbsp;&nbsp;切</div>
+            <div class="copy shezhi">复&nbsp;&nbsp;&nbsp;制</div>
+        </div>
+    </div>
+    <div class="canvas-wrap" >
+    	<canvas width="1070" height="648" id="main"></canvas>
+    </div>
+    
+</body>
+
+<script src="index.js"></script>
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="fabric.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    
+    /**
+     * 初始化画布
+     */
+    var canvas = new fabric.Canvas('main');
+    
+   	/**
+   	 * 清空画布
+   	 */
+   	clearCanvas = () => {
+   		console.log(canvas)
+   		canvas.clear();
+   	}
+    
+    /**
+     * 设置是图形为描边
+     */
+    setStack = () => {
+    	var lineWidth = document.querySelector('#lineWidth').value;
+    	var stackColor = document.querySelector('#stackcolors').value;
+    	var objList = canvas.getObjects();
+    	var obj = null;
+    	for (var i = 0; i< objList.length; i++) {
+    		if (objList[i].active) {
+    			obj = objList[i];
+    			break;
+    		}
+    	}
+    	if(!obj){return};
+    	obj.set('fill', 'transparent');
+		obj.set({ strokeWidth: Number(lineWidth), stroke: stackColor });
+		canvas.renderAll()
+    }
+    
+    /**
+     * 设置是图形为填充
+     */
+    setFill = () => {
+    	var lineWidth = document.querySelector('#lineWidth').value;
+    	var fillColor = document.querySelector('#fillcolors').value;
+    	var objList = canvas.getObjects();
+    	var obj = null;
+    	for (var i = 0; i< objList.length; i++) {
+    		if (objList[i].active) {
+    			obj = objList[i];
+    			break;
+    		}
+    	}
+    	console.log(obj)
+    	if(!obj){return};
+    	obj.set('fill', fillColor);
+		obj.set({ strokeWidth: Number(lineWidth), stroke: fillColor });
+		canvas.renderAll()
+    }
+    
+    /**
+     * 画线
+     */
+    drawLine = () => {
+    	var line =  new fabric.Line([10, 10, 100, 100], {
+            strokeWidth: 2, //线宽
+            stroke: 'rgba(255,0,0,0.8)', //线的颜色
+        });
+        canvas.add(line);
+    }
+    
+    
+    /**
+     * 画圆
+     */
+    drawCircle = () => {
+    	var circle = new fabric.Circle({
+		    radius: 50,
+		    left: 200,
+		    top:100,
+		//  fill:'green',
+		    stack: 'green',
+		    height: 200
+		});
+		canvas.add(circle);
+    }
+    
+    /**
+     * 画矩形
+     */
+    drawRect = () => {
+    	var rect = new fabric.Rect({
+		    left: 100,
+		    top: 100,
+		    fill: 'red',
+		    width: 100,
+		    height: 100
+		});
+		canvas.add(rect);
+    }
+    
+    /**
+     * 画三角
+     */
+    drawTriangle = () => {
+    	var triangle = new fabric.Triangle({
+		    width: 80,
+		    height: 100,
+		    fill: 'blue',
+		    left: 300,
+		    top: 300
+		})
+    	canvas.add(triangle);
+    }
+    
+    /**
+     * 输入文本
+     */
+    drawText = () => {
+    	var text = new fabric.Text('hello world', { left: 100, top: 100 });
+		canvas.add(text);
+    }
+    
+    /**
+     * 绘制不规则图形
+     */
+    drawPath = () => {
+    	var path = new fabric.Path('M 0 0 L 200 100 L 170 200 z');
+		path.set({ left: 120, top: 120,fill:'red' });
+		canvas.add(path);
+    }
+    
+    /**
+     * 画横线
+     */
+    drawHLine = () => {
+    	var hLine =  new fabric.Line([210, 100, 410, 100], {
+            strokeWidth: 20, //线宽
+            stroke: 'rgba(255,0,0,0.8)', //线的颜色
+        });
+        canvas.add(hLine);
+    }
+    
+    /**
+     * 画竖线
+     */
+    drawVLine = () => {
+    	var vLine =  new fabric.Line([210, 100, 210, 300], {
+            strokeWidth: 20, //线宽
+            stroke: 'rgba(255,0,0,0.8)', //线的颜色
+        });
+        canvas.add(vLine);
+    }
+    
+    
+    
+</script>
+</html>
