@@ -13,7 +13,6 @@
                 <li class="line typeactive" onclick="drawLine()" data="line">直&nbsp;&nbsp;&nbsp;线</li>
                 <li class="rect" data="rect" onclick="drawRect()">矩&nbsp;&nbsp;&nbsp;形</li>
                 <li class="circle" data="circle" onclick="drawCircle()">圆&nbsp;&nbsp;&nbsp;圈</li>
-                <li class="pen" data="pen">铅&nbsp;&nbsp;&nbsp;笔</li>
                 <li class="poly" data="poly" onclick="drawTriangle()">三&nbsp;角&nbsp;形
                     <div class="bian"><span>边数</span><input type="number" name="number" min="3" value="3" max="15"></div></li>
                 <li class="eraser" data="eraser">橡&nbsp;&nbsp;&nbsp;皮</li>
@@ -22,6 +21,8 @@
                 <li class="eraser" data="verticalfont" onclick="drawVLine()">竖&nbsp;&nbsp;&nbsp;线</li>
                 <li class="eraser" data="drawImage" onclick="drawImage()">导入图片</li>
                 <li class="eraser" data="exportBorad" onclick="exportDashborad()">导出画板</li>
+             	<li class="eraser" data="exportBorad" onclick="mergeGroup()">合并组合</li>
+              	<li class="eraser" data="exportBorad" onclick="cancleGroup()">取消组合</li>
                 <input type="file" class="getImages" onchange="selectImage(this);"/>
             </ul>
             <ul class="style">
@@ -49,8 +50,6 @@
                 </div>
             </div>
             <div class="clear shezhi" onclick="clearCanvas()" >清&nbsp;&nbsp;&nbsp;空</div>
-            <div class="back shezhi">撤&nbsp;&nbsp;&nbsp;销</div>
-            <div class="save shezhi">保&nbsp;&nbsp;&nbsp;存</div>
             <div class="cut shezhi" data="cut">剪&nbsp;&nbsp;&nbsp;切</div>
             <div class="copy shezhi">复&nbsp;&nbsp;&nbsp;制</div>
         </div>

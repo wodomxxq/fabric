@@ -12,7 +12,39 @@
    		canvas.clear();
    	}
    	
-   	 selectImage = (file) => {
+   	/**
+   	 * 合并成组
+   	 */
+   	mergeGroup = () => {
+	 	if (!canvas.getActiveObject()) {
+          return;
+        }
+        if (canvas.getActiveObject().type !== 'activeSelection') {
+          return;
+        }
+        canvas.getActiveObject().toGroup();
+        canvas.requestRenderAll();
+   	}
+   	
+   	/**
+   	 * 取消分组
+   	 */
+   	cancleGroup = () => {
+   		if (!canvas.getActiveObject()) {
+          return;
+        }
+        if (canvas.getActiveObject().type !== 'group') {
+          return;
+        }
+        canvas.getActiveObject().toActiveSelection();
+        canvas.requestRenderAll();
+   	}
+   	
+   	
+   	/**
+   	 * 导入图片
+   	 */
+   	selectImage = (file) => {
         if (!file.files || !file.files[0]) {
             return;
         }
@@ -41,9 +73,9 @@
 			let base64ImgSrc = canvas.toDataURL("image/png");
 			
 			/* 如果只是显示,可用以下代码 */
-			let img = document.createElement("img");
-			img.src = base64ImgSrc ;
-			document.body.appendChild(img);
+//			let img = document.createElement("img");
+//			img.src = base64ImgSrc ;
+//			document.body.appendChild(img);
 			
 			var myWindow = window.open('base64ImgSrc');
 			myWindow.location.href = base64ImgSrc
