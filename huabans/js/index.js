@@ -13,6 +13,24 @@
    	}
    	
    	/**
+   	 * 删除选中对象
+   	 */
+   	deleteItem = () => {
+   		if (!canvas.getActiveObject()) {
+          return;
+       	}
+   		let objItem = canvas.getActiveObject();
+   		if (objItem._objects) {
+   			for (let obj of objItem._objects) {
+   				canvas.remove(obj);
+   			}
+   		} else {
+   			canvas.remove(objItem);
+   		}
+   	}
+   	
+   	
+   	/**
    	 * 合并成组
    	 */
    	mergeGroup = () => {
@@ -125,7 +143,6 @@
     			break;
     		}
     	}
-    	console.log(obj)
     	if(!obj){return};
     	obj.set('fill', fillColor);
 		obj.set({ strokeWidth: Number(lineWidth), stroke: fillColor });
